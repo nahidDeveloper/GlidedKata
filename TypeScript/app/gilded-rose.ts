@@ -12,10 +12,13 @@ export class Item {
 
 export class GildedRose {
   items: Array<Item>;
+  MAX_VALUE = 50;
 
   constructor(items = [] as Array<Item>) {
     this.items = items;
   }
+
+  
 
   updateQuality() {
     for (let i = 0; i < this.items.length; i++) {
@@ -33,10 +36,10 @@ export class GildedRose {
         if (this.items[i].quality < 50) {//No item can be greater than 50
           this.items[i].quality = this.items[i].quality + 1
           if (this.items[i].name == 'Backstage passes to a TAFKAL80ETC concert') {
-            if(this.items[i].sellIn<11 &&this.items[i].quality < 50){
+            if(this.items[i].sellIn<11 &&this.items[i].quality < this.MAX_VALUE){
               this.items[i].quality = this.items[i].quality + 1
             }
-            if(this.items[i].sellIn<6 &&this.items[i].quality < 50){
+            if(this.items[i].sellIn<6 &&this.items[i].quality < this.MAX_VALUE){
               this.items[i].quality = this.items[i].quality + 1
             }
             
@@ -63,7 +66,7 @@ export class GildedRose {
             this.items[i].quality = this.items[i].quality - this.items[i].quality //Set backstage concert to 0
           }
         } else { //Increase Aged Brie item to by one if not by 50
-          if (this.items[i].quality < 50) {
+          if (this.items[i].quality < this.MAX_VALUE) {
             this.items[i].quality = this.items[i].quality + 1
           }
         }
