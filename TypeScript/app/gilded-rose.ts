@@ -19,27 +19,29 @@ export class GildedRose {
 
   updateQuality() {
     for (let i = 0; i < this.items.length; i++) {
-      if (this.items[i].name != 'Aged Brie' && this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-        if (this.items[i].quality > 0) {
-          if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
+      if (this.items[i].name != 'Aged Brie' && this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {//Aged brie and backpass concert does not decrease
+        if (this.items[i].quality > 0) {// Items cannot be below 0
+          if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') { //Everything decreases in QualiTY EXCEPT Sulfuras
             this.items[i].quality = this.items[i].quality - 1
+            //Decrease twice as fast if it is Item Conjured
+            if(this.items[i].name =="Conjured" && this.items[i].quality != 0){
+              this.items[i].quality = this.items[i].quality - 1
+            }
           }
         }
-      } else {
-        if (this.items[i].quality < 50) {
+      } else {// This will run if its Aged Brie or Backstage
+        if (this.items[i].quality < 50) {//No item can be greater than 50
           this.items[i].quality = this.items[i].quality + 1
           if (this.items[i].name == 'Backstage passes to a TAFKAL80ETC concert') {
-            if (this.items[i].sellIn < 11) {
-              if (this.items[i].quality < 50) {
-                this.items[i].quality = this.items[i].quality + 1
-              }
+            if(this.items[i].sellIn<11 &&this.items[i].quality < 50){
+              this.items[i].quality = this.items[i].quality + 1
             }
-            if (this.items[i].sellIn < 6) {
-              if (this.items[i].quality < 50) {
-                this.items[i].quality = this.items[i].quality + 1
-              }
+            if(this.items[i].sellIn<6 &&this.items[i].quality < 50){
+              this.items[i].quality = this.items[i].quality + 1
             }
+            
           }
+          
         }
       }
       if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
@@ -51,12 +53,16 @@ export class GildedRose {
             if (this.items[i].quality > 0) {
               if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
                 this.items[i].quality = this.items[i].quality - 1
+                // Conjured Decreases twice as normal quality items
+                if(this.items[i].name =="Conjured" && this.items[i].quality != 0){
+                  this.items[i].quality = this.items[i].quality - 1
+                }
               }
             }
           } else {
-            this.items[i].quality = this.items[i].quality - this.items[i].quality
+            this.items[i].quality = this.items[i].quality - this.items[i].quality //Set backstage concert to 0
           }
-        } else {
+        } else { //Increase Aged Brie item to by one if not by 50
           if (this.items[i].quality < 50) {
             this.items[i].quality = this.items[i].quality + 1
           }
