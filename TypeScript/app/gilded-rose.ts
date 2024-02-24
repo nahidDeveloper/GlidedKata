@@ -33,10 +33,10 @@ export class GildedRose {
     if (backStage.name == this.CONCERT_STRING) {
       //Addtional check for security
       if (backStage.sellIn < 11 && this.belowMaxValue(backStage.quality)) {
-        backStage.quality = backStage.quality + 1;
+        backStage.quality += 1;
       }
       if (backStage.sellIn < 6 && this.belowMaxValue(backStage.quality)) {
-        backStage.quality = backStage.quality + 1;
+        backStage.quality += 1;
       }
     }
   }
@@ -50,51 +50,52 @@ export class GildedRose {
 
   qualityDegrader(item: Item) {
     if (item.quality > 0) {
-      item.quality = item.quality - 1;
+      item.quality -= 1;
       //Decrease twice as fast if it is Item Conjured
       if (item.name == "Conjured" && item.quality != 0) {
-        item.quality = item.quality - 1;
+        item.quality -=1 ;
       }
     }
   }
 
   updateQuality() {
     for (let i = 0; i < this.items.length; i++) {
+      let item = this.items[i];
       //If item is Sulfuras we can continue as there are no changes to this item
-      if (this.items[i].name === "Sulfuras, Hand of Ragnaros") {
+      if (item.name === "Sulfuras, Hand of Ragnaros") {
         continue;
       }
-      if (this.checkIfRegularItems(this.items[i])) {
+      if (this.checkIfRegularItems(item)) {
         //Aged brie and backpass concert does not decrease
-        this.qualityDegrader(this.items[i]);
+        this.qualityDegrader(item);
       } else {
         // This will run if its Aged Brie or Backstage
-        if (this.belowMaxValue(this.items[i].quality)) {
+        if (this.belowMaxValue(item.quality)) {
           //No item can be greater than 50
-          this.items[i].quality = this.items[i].quality + 1;
+          item.quality +=1;
           if (
-            this.items[i].name == this.CONCERT_STRING
+            item.name == this.CONCERT_STRING
           ) {
-            this.handleBackStageValue(this.items[i]);
+            this.handleBackStageValue(item);
           }
         }
       }
       //Decrease all items sellin Value
-      this.items[i].sellIn = this.items[i].sellIn - 1;
+      item.sellIn -= 1;
       //Handling items past their sell value
-      if (this.items[i].sellIn < 0) {
-        if (this.checkIfRegularItems(this.items[i])) {
+      if (item.sellIn < 0) {
+        if (this.checkIfRegularItems(item)) {
           //If regular items standard way of decreasing Value
-          this.qualityDegrader(this.items[i]);
+          this.qualityDegrader(item);
         } else if (
-          this.items[i].name == this.CONCERT_STRING
+          item.name == this.CONCERT_STRING
         ) {
           //if concert set to 0
-          this.items[i].quality = 0;
+          item.quality = 0;
         } else {
           //If Aged Brie increase value if not over max
-          if (this.belowMaxValue(this.items[i].quality)) {
-            this.items[i].quality = this.items[i].quality + 1;
+          if (this.belowMaxValue(item.quality)) {
+            item.quality += 1;
           }
         }
       }
