@@ -18,7 +18,17 @@ export class GildedRose {
   constructor(items = [] as Array<Item>) {
     this.items = items;
   }
-  
+  //Handling the increase of concert Values
+  handleBackStageValue(backStage:Item){
+    if(backStage.name == 'Backstage passes to a TAFKAL80ETC concert'){//Addtional check for security
+      if(backStage.sellIn<11 &&this.belowMaxValue(backStage.quality)){
+        backStage.quality = backStage.quality + 1
+      }
+      if(backStage.sellIn<6 &&this.belowMaxValue(backStage.quality)){
+        backStage.quality = backStage.quality + 1
+      }
+    }
+  }
   //Method to check if items value is below the max Value
   belowMaxValue(itemQuality:number): boolean{
     if(itemQuality<this.MAX_VALUE){
@@ -50,13 +60,7 @@ export class GildedRose {
         if (this.belowMaxValue(this.items[i].quality)) {//No item can be greater than 50
           this.items[i].quality = this.items[i].quality + 1
           if (this.items[i].name == 'Backstage passes to a TAFKAL80ETC concert') {
-            if(this.items[i].sellIn<11 &&this.items[i].quality < this.MAX_VALUE){
-              this.items[i].quality = this.items[i].quality + 1
-            }
-            if(this.items[i].sellIn<6 &&this.items[i].quality < this.MAX_VALUE){
-              this.items[i].quality = this.items[i].quality + 1
-            }
-            
+            this.handleBackStageValue(this.items[i]);
           }
           
         }
