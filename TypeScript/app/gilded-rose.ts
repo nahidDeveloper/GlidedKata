@@ -13,9 +13,19 @@ export class Item {
 export class GildedRose {
   items: Array<Item>;
   MAX_VALUE = 50;
+  
 
   constructor(items = [] as Array<Item>) {
     this.items = items;
+  }
+  
+  //Method to check if items value is below the max Value
+  belowMaxValue(itemQuality:number): boolean{
+    if(itemQuality<this.MAX_VALUE){
+      return true;
+    }
+    return false;
+
   }
 
   qualityDegrader(item:Item){
@@ -37,7 +47,7 @@ export class GildedRose {
       if (this.items[i].name != 'Aged Brie' && this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {//Aged brie and backpass concert does not decrease
           this.qualityDegrader(this.items[i])   
       } else {// This will run if its Aged Brie or Backstage
-        if (this.items[i].quality < this.MAX_VALUE) {//No item can be greater than 50
+        if (this.belowMaxValue(this.items[i].quality)) {//No item can be greater than 50
           this.items[i].quality = this.items[i].quality + 1
           if (this.items[i].name == 'Backstage passes to a TAFKAL80ETC concert') {
             if(this.items[i].sellIn<11 &&this.items[i].quality < this.MAX_VALUE){
@@ -63,7 +73,7 @@ export class GildedRose {
             this.items[i].quality = this.items[i].quality - this.items[i].quality //Set backstage concert to 0
           }
         } else { //Increase Aged Brie item to by one if not by 50
-          if (this.items[i].quality < this.MAX_VALUE) {
+          if (this.belowMaxValue(this.items[i].quality)) {
             this.items[i].quality = this.items[i].quality + 1
           }
         }
