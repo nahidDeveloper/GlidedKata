@@ -74,7 +74,7 @@ export class GildedRose {
               this.qualityDegrader(this.items[i])
             
           } else {
-            this.items[i].quality = this.items[i].quality - this.items[i].quality //Set backstage concert to 0
+            this.items[i].quality = 0; //Set backstage concert to 0
           }
         } else { //Increase Aged Brie item to by one if not by 50
           if (this.belowMaxValue(this.items[i].quality)) {
