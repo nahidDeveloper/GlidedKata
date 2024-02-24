@@ -18,6 +18,14 @@ export class GildedRose {
   constructor(items = [] as Array<Item>) {
     this.items = items;
   }
+
+  checkIfRegularItems(items:Item):boolean{
+    if(items.name != 'Aged Brie' && items.name != 'Backstage passes to a TAFKAL80ETC concert'){
+      return true
+    }
+    return false;
+
+  }
   //Handling the increase of concert Values
   handleBackStageValue(backStage:Item){
     if(backStage.name == 'Backstage passes to a TAFKAL80ETC concert'){//Addtional check for security
@@ -54,7 +62,7 @@ export class GildedRose {
       if(this.items[i].name === 'Sulfuras, Hand of Ragnaros'){
         continue;
       }
-      if (this.items[i].name != 'Aged Brie' && this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {//Aged brie and backpass concert does not decrease
+      if (this.checkIfRegularItems(this.items[i])) {//Aged brie and backpass concert does not decrease
           this.qualityDegrader(this.items[i])   
       } else {// This will run if its Aged Brie or Backstage
         if (this.belowMaxValue(this.items[i].quality)) {//No item can be greater than 50
@@ -69,18 +77,16 @@ export class GildedRose {
         this.items[i].sellIn = this.items[i].sellIn - 1;
       
       if (this.items[i].sellIn < 0) {
-        if (this.items[i].name != 'Aged Brie') {
-          if (this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-              this.qualityDegrader(this.items[i])
-            
-          } else {
-            this.items[i].quality = 0; //Set backstage concert to 0
-          }
-        } else { //Increase Aged Brie item to by one if not by 50
+        if(this.checkIfRegularItems(this.items[i])){//If regular items standard way of decreasing Value
+          this.qualityDegrader(this.items[i])
+        }else if(this.items[i].name == 'Backstage passes to a TAFKAL80ETC concert'){//if concert set to 0
+          this.items[i].quality=0;
+        }else{ //If Aged Brie increase value if not over max
           if (this.belowMaxValue(this.items[i].quality)) {
             this.items[i].quality = this.items[i].quality + 1
           }
         }
+        
       }
     }
 
