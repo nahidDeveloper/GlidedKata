@@ -35,7 +35,7 @@ export class GildedRose {
       if (this.items[i].name != 'Aged Brie' && this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {//Aged brie and backpass concert does not decrease
           this.qualityDegrader(this.items[i])   
       } else {// This will run if its Aged Brie or Backstage
-        if (this.items[i].quality < 50) {//No item can be greater than 50
+        if (this.items[i].quality < this.MAX_VALUE) {//No item can be greater than 50
           this.items[i].quality = this.items[i].quality + 1
           if (this.items[i].name == 'Backstage passes to a TAFKAL80ETC concert') {
             if(this.items[i].sellIn<11 &&this.items[i].quality < this.MAX_VALUE){
