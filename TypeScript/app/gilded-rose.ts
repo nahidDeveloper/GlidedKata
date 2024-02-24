@@ -13,6 +13,7 @@ export class Item {
 export class GildedRose {
   items: Array<Item>;
   MAX_VALUE = 50;
+  CONCERT_STRING = "Backstage passes to a TAFKAL80ETC concert";
 
   constructor(items = [] as Array<Item>) {
     this.items = items;
@@ -21,7 +22,7 @@ export class GildedRose {
   checkIfRegularItems(items: Item): boolean {
     if (
       items.name != "Aged Brie" &&
-      items.name != "Backstage passes to a TAFKAL80ETC concert"
+      items.name != this.CONCERT_STRING
     ) {
       return true;
     }
@@ -29,7 +30,7 @@ export class GildedRose {
   }
   //Handling the increase of concert Values
   handleBackStageValue(backStage: Item) {
-    if (backStage.name == "Backstage passes to a TAFKAL80ETC concert") {
+    if (backStage.name == this.CONCERT_STRING) {
       //Addtional check for security
       if (backStage.sellIn < 11 && this.belowMaxValue(backStage.quality)) {
         backStage.quality = backStage.quality + 1;
@@ -72,7 +73,7 @@ export class GildedRose {
           //No item can be greater than 50
           this.items[i].quality = this.items[i].quality + 1;
           if (
-            this.items[i].name == "Backstage passes to a TAFKAL80ETC concert"
+            this.items[i].name == this.CONCERT_STRING
           ) {
             this.handleBackStageValue(this.items[i]);
           }
@@ -86,7 +87,7 @@ export class GildedRose {
           //If regular items standard way of decreasing Value
           this.qualityDegrader(this.items[i]);
         } else if (
-          this.items[i].name == "Backstage passes to a TAFKAL80ETC concert"
+          this.items[i].name == this.CONCERT_STRING
         ) {
           //if concert set to 0
           this.items[i].quality = 0;
